@@ -16,6 +16,7 @@ var Datetime = createClass({
 		onFocus: TYPES.func,
 		onBlur: TYPES.func,
 		onChange: TYPES.func,
+		onViewDateChange: TYPES.func,
 		locale: TYPES.string,
 		utc: TYPES.bool,
 		input: TYPES.bool,
@@ -41,6 +42,7 @@ var Datetime = createClass({
 			onFocus: nof,
 			onBlur: nof,
 			onChange: nof,
+			onViewDateChange: nof,
 			timeFormat: true,
 			timeConstraints: {},
 			dateFormat: true,
@@ -139,6 +141,11 @@ var Datetime = createClass({
 		;
 
 		return formats;
+	},
+
+	componentDidUpdate: function( lastProps, lastState ) {
+		if ( lastState.viewDate !== this.state.viewDate && !lastState.viewDate.isSame( this.state.viewDate ) )
+			this.props.onViewDateChange( this.state.viewDate );
 	},
 
 	componentWillReceiveProps: function( nextProps ) {
